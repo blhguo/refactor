@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Scanner;
+import java.util.function.Consumer;
 
 /**
  * Runs a number of algorithms that try to fit files onto disks.
@@ -71,11 +72,9 @@ public class Bins {
     }
 
     // add contents of given data to pq and print results
-    private void fitDisksAndPrint(List<Integer> data, String description) {
+    private void fitDisksAndPrint(List<Integer> data, String description, Consumer<List<Integer>> c) {
         List<Integer> copy = new ArrayList<>(data);
-        if (description.equals(WORST_FIT_DECREASING)) {
-            Collections.sort(copy, Collections.reverseOrder());
-        }
+        	c.accept(copy);
         Collection<Disk> pq = calculateDisksNeeded(copy);
         printDisksUsed(pq, description);
     }
@@ -88,9 +87,9 @@ public class Bins {
         Scanner input = new Scanner(Bins.class.getClassLoader().getResourceAsStream(DATA_FILE));
         List<Integer> data = b.readData(input);
         int total = b.getTotalSize(data);
-
+        
         System.out.println("total size = " + (double) total / Disk.GIGABYTE + "GB");
-        b.fitDisksAndPrint(data, WORST_FIT);
-        b.fitDisksAndPrint(data, WORST_FIT_DECREASING);
+        b.fitDisksAndPrint(data, WORST_FIT, c -> Collections.sort(c));
+        b.fitDisksAndPrint(data, WORST_FIT_DECREASING, c -> Collections.sort(c, Collections.reverseOrder()));
     }
 }
