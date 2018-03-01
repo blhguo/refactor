@@ -1,3 +1,3 @@
-# spikes_slogo
+# lab_advanced
 
-Simple experiments on topics relevant to the CompSci 308 SLogo project. 
+Old projects collected together to be refactored
